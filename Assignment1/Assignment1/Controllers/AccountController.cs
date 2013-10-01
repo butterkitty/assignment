@@ -22,6 +22,7 @@ namespace Assignment1.Controllers
         [HttpPost]
         public ActionResult Login(Models.LoginModel Model)
         {
+            
             if (Model.Email == "whatever" && Model.Password == "whatever")
             {
                 System.Web.Security.FormsAuthentication.RedirectFromLoginPage(Model.Email, true);
