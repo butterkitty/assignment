@@ -22,13 +22,14 @@ namespace Assignment1.Controllers
         [HttpPost]
         public ActionResult Login(Models.LoginModel Model)
         {
-            
-            if (Model.Email == "whatever" && Model.Password == "whatever")
+            MichelleEntities Context = new MichelleEntities();
+            Login login = (from l in Context.Logins where l.Email == Model.Email && l.Password == Model.Password select l).FirstOrDefault();
+            if (login != null)
             {
                 System.Web.Security.FormsAuthentication.RedirectFromLoginPage(Model.Email, true);
                 
             }
-            return null;
+            return View();
         }
         public ActionResult Logout()
         {

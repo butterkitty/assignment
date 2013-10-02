@@ -6,6 +6,7 @@
     <edmx:Diagrams>
       <Diagram DiagramId="21c3b6a731ff4e559fa79a1e7e4d468a" Name="Diagram1">
         <EntityTypeShape EntityType="MichelleModel.Login" Width="1.5" PointX="11.55574428455706" PointY="3.836925925611018" />
+        <EntityTypeShape EntityType="MichelleModel.Game" Width="1.5" PointX="0.75" PointY="0.75" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
