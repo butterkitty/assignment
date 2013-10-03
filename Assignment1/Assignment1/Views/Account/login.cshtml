@@ -1,22 +1,50 @@
-﻿@model Assignment1.Models.GamesModel
+﻿@model Assignment1.Models.LoginModel
 @{
     Layout = null;
 }
+
+
 
 <!DOCTYPE html>
 
 <html>
 <head>
     <meta name="viewport" content="width=device-width" />
-    <title>login</title>
+    <title>Login</title>
+    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css">
 </head>
 <body>
-    <div>
-        <form method="post">
-            <input type="text" name="Email" placeholder="Email" />
-            <input type="password" name="Password" placeholder="Password" />
-            <input type="submit" name="WhateverIwant" />
-        </form>
-    </div>
+
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                Please Enter Your Login Information:
+            </div>
+            <div class="panel-body">
+                <br />
+                <form method="post" class="form-horizontal" role="form">
+                    <div class="form-group">
+                        <label for="Email" class="col-lg-2 control-label">Email</label>
+                        <div class="col-lg-2">
+                            <input type="email" name="Email" class="form-control" placeholder="Email" />
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="Password" class="col-lg-2 control-label">Password</label>
+                        <div class="col-lg-2">
+                            <input type="password" name="Password" class="form-control" placeholder="Password" />
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-lg-offset-2 col-lg-10">
+                            <button type="submit" class="btn btn-default">Submit</button>
+                        </div>
+                    </div>
+
+                </form>
+            </div>
+        </div>
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+    <script src="//netdna.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js"></script>
+
 </body>
 </html>
