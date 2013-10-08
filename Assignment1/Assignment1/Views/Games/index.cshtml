@@ -1,62 +1,97 @@
 ﻿@{
-    ViewBag.Title = "Games";
+    ViewBag.Title = "Index";
 }
 
+<script id="gameTmpl" type="text/x-jsrender">
+    <tr>
+        <td>
+            {{:id}} {{:name}} {{:editButton}}
+        </td>
+    </tr>
+</script>
 
-<html>
-<head>
-    <meta name="viewport" content="width=device-width" />
-    <title>Games</title>
-</head>
-<body>
-    <div>
-        <h2>Games</h2>
-        
-            <table><tbody id="peopleList"></tbody></table>
+<h2>Index</h2>
 
-            <script id="peopleTmpl" type="text/x-jsrender">
-                <tr>
-                    <td>
-                        <ul>
-                            {{for people}}
-                            <li>
-                                {{:name}}
-                                {{if nickname}}
-                                ( {{:nickname}} )
-                                {{/if}}
-                            </li>
-                            {{/for}}
-                        </ul>
-                    </td>
-                </tr>
-            </script>
-       
+<div>
+    <h2>Games</h2>
+
+    <div id="editID"></div>
+    <input id="txtName" type="text" />
+    <button id="btnAdd" type="button">Add</button>
+    <table>
+        <tbody id="gamesList"></tbody>
+    </table>
+
+
+
     </div>
+@section scripts{
+<script src="~/Scripts/jsrender.min.js"></script>
+<script type="text/javascript">
+    $(function () {
+        $.ajax("/api/games", {
+            type: "GET",
+            success: function (games) {
+                $(games).each(function (i, game) {
+                    
+                    game.editButton = " <button id=\"btnEdit\" type=\"button\" onclick=\"EditGame(" + game.id + ", " + game.name + ")\">Edit</button>"
+                    $("#gamesList").append($.templates("#gameTmpl").render(game));
+                });
+            }
+        })
+        $("#btnAdd").click(AddGame);
+        
+        //$("#btnEdit").click(EditGame($("#btnEdit").val()));
+        
+    });
+    function AddGame() {
+        $.ajax("/api/games", {
+            type: "POST",
+            data: '{ name: "' + $("#txtName").val() + '"}',
+            dataType: "json",
+            contentType: "application/json; charset=utf-8",
+            success: function (game) {
 
-    <script src="~/Scripts/jsrender.min.js"></script>
-    <script type="text/javascript">
-        {
-            var myTemplate = $.templates("#peopleTmpl");
+                game.editButton = " <button id=\"btnEdit\" type=\"button\" onclick=\"EditGame(" + game.id + ", " + game.name + ")\">Edit</button>"
+                $("#gamesList").append($.templates("#gameTmpl").render(game));
 
-            var people = [
-                {
-                    name: "Adriana"
-                },
-                {
-                    name: "Robert",
-                    nickname: "Bob"
-                }
-            ];
+            }
+        });
+    }
+    function EditGame(editID, editName) {
+        $("#editID").html(editID);
+        $("#txtName").val(editName);
+        $("#btnAdd").attr('id','btnUpdate')
+        $("#btnUpdate").html('Update');
+        $("#btnUpdate").click(UpdateGame);
+        
+    }
+    function UpdateGame()
+    {
+        $.ajax("/api/games/" + $("#editID").html(), {
+            type: "PUT",
+            data: '{ name: "' + $("#txtName").val() + '"}',
+            dataType: "json",
+            contentType: "application/json; charset=utf-8",
+            success: function (game) {
+                $("#editID").html("");
+                $("#txtName").val("");
+                $("#btnUpdate").attr('id', 'btnAdd');
+                $("#btnAdd").html('Add');
+                $("#btnAdd").click(AddGame);
+                $("#gamesList").html("");
+                $.ajax("/api/games", {
+                    type: "GET",
+                    success: function (games) {
+                        $(games).each(function (i, game) {
 
-            app = {
-                people: people
-            };
-
-            var html = myTemplate.render(app);
-
-            $("#peopleList").html(html);
-        }
-    </script>
-
-</body>
-</html>
+                            game.editButton = " <button id=\"btnEdit\" type=\"button\" onclick=\"EditGame(" + game.id + ", " + game.name + ")\">Edit</button>"
+                            $("#gamesList").append($.templates("#gameTmpl").render(game));
+                        });
+                    }
+                })
+            }
+        });
+    }
+</script>
+    }

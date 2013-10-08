@@ -5,14 +5,11 @@
     <!-- SSDL content -->
     <edmx:StorageModels>
     <Schema Namespace="MichelleModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
-        <!--Errors Found During Generation:
-warning 6002: The table/view 'Michelle.dbo.Games' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="Games">
           <Key>
             <PropertyRef Name="ID" />
-            <PropertyRef Name="Name" />
           </Key>
-          <Property Name="ID" Type="int" Nullable="false" />
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Name" Type="varchar" MaxLength="50" Nullable="false" />
         </EntityType>
         <EntityType Name="Login">
@@ -24,13 +21,8 @@ warning 6002: The table/view 'Michelle.dbo.Games' does not have a primary key de
           <Property Name="Password" Type="varchar" MaxLength="50" Nullable="false" />
         </EntityType>
         <EntityContainer Name="MichelleModelStoreContainer">
+          <EntitySet Name="Games" EntityType="Self.Games" Schema="dbo" p3:Type="Tables" xmlns:p3="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" />
           <EntitySet Name="Login" EntityType="Self.Login" Schema="dbo" p3:Type="Tables" xmlns:p3="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" />
-          <EntitySet Name="Games" EntityType="Self.Games" p3:Type="Tables" p3:Schema="dbo" xmlns:p3="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator">
-            <DefiningQuery>SELECT 
-[Games].[ID] AS [ID], 
-[Games].[Name] AS [Name]
-FROM [dbo].[Games] AS [Games]</DefiningQuery>
-          </EntitySet>
         </EntityContainer>
       </Schema></edmx:StorageModels>
     <!-- CSDL content -->
@@ -51,7 +43,6 @@ FROM [dbo].[Games] AS [Games]</DefiningQuery>
         <EntityType Name="Game">
           <Key>
             <PropertyRef Name="ID" />
-            <PropertyRef Name="Name" />
           </Key>
           <Property Name="ID" Type="Int32" Nullable="false" />
           <Property Name="Name" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
